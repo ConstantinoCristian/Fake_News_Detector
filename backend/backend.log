@@ -1,0 +1,28 @@
+=== NEW REQUEST ===
+[1] Received URL: https://www.theguardian.com/uk-news/2026/feb/23/peter-mandelson-arrested-on-suspicion-of-misconduct-in-public-office
+[3] Fetching HTML from URL...
+[4] HTML fetched: 310329 characters
+[5] Creating JSDOM document...
+[6] JSDOM created
+[7] Running Readability parser...
+[8] Article parsed: success
+[10] Article content extracted: 6135 characters
+[11] Plain text after stripping HTML: 5410 characters
+[13] Sending to Python service...
+[14] Python URL: http://localhost:8000/fakeBERT/
+[15] Payload: {"content":"Peter Mandelson has been arrested by detectives investigating claims he committed misconduct in publ"}
+[16] Python response received: {"label":"FALSE","score":0.9996947050094604}
+=== NEW REQUEST ===
+[1] Received URL: https://www.theguardian.com/education/2026/feb/22/beyond-worried-parents-fear-send-overhaul-will-reduce-support-vulnerable-children
+[3] Fetching HTML from URL...
+[4] HTML fetched: 331885 characters
+[5] Creating JSDOM document...
+[6] JSDOM created
+[7] Running Readability parser...
+[8] Article parsed: success
+[10] Article content extracted: 20715 characters
+[11] Plain text after stripping HTML: 12138 characters
+[13] Sending to Python service...
+[14] Python URL: http://localhost:8000/fakeBERT/
+[15] Payload: {"content":"At the age of 12, May Race’s son Joseph spends almost all of his time in his bedroom, too anxious, b"}
+[16] Python response received: {"label":"FALSE","score":0.9997087121009827}
