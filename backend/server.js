@@ -48,7 +48,7 @@ app.post("/urlCheck", async (req,res)=>{
             return res.json({output: {label: "No readable text content found", score: ""}});
         }
 
-        const pythonResponse = await axios.post("http://localhost:8000/fakeBERT/", {content: plainText});
+        const pythonResponse = await axios.post(`${process.env.ML_SERVICE_URL}/fakeBERT/`, {content: plainText});
 
         return res.json({output: pythonResponse.data})
 
