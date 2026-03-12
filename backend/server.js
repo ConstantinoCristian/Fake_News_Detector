@@ -38,15 +38,16 @@ app.post("/urlCheck", async (req,res)=>{
         if (!userInput) {
             return res.json({output: {label: "Invalid url", score: ""}});
         }
+
+        console.log("Fetching URL...");
         const htmlResponse = await fetch(userInput, {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             }
         });
-
+        console.log("Fetch status:", htmlResponse.status);
 
         const htmlText = await htmlResponse.text();
-
         const doc = new JSDOM(htmlText, { url: userInput });
         const reader = new Readability(doc.window.document);
         const article = reader.parse();
@@ -61,11 +62,14 @@ app.post("/urlCheck", async (req,res)=>{
             return res.json({output: {label: "No readable text content found", score: ""}});
         }
 
+        console.log("Calling ML service at:", process.env.ML_SERVICE_URL);
         const pythonResponse = await axios.post(`${process.env.ML_SERVICE_URL}/fakeBERT/`, {content: plainText});
+        console.log("ML response:", pythonResponse.data);
 
         return res.json({output: pythonResponse.data})
 
     } catch(e) {
+        console.log("Error:", e.message);
         return res.json({output: {label: e.message, score: ""}})
     }
 })
