@@ -29,22 +29,25 @@ def load_model():
 class ArticleBody(BaseModel):
     content : str
 
+
 app = FastAPI()
 
+@app.on_event("startup")
+async def startup_event():
+    load_model()
+
+@app.get("/")
+def health_check():
+    return {"status": "alive"}
+
 @app.post("/fakeBERT/")
-async def create_article_body(body : ArticleBody):
+async def create_article_body(body: ArticleBody):
     try:
-
-        load_model()
-
-
         if not body.content or len(body.content.strip()) == 0:
             return {"error": "Empty content provided"}
 
-
         tokens = tokenizer.encode(body.content, max_length=512, truncation=True)
         truncated_text = tokenizer.decode(tokens, skip_special_tokens=True)
-
 
         if not truncated_text or len(truncated_text.strip()) == 0:
             return {"error": "No valid text after processing"}
@@ -55,18 +58,8 @@ async def create_article_body(body : ArticleBody):
         else:
             result[0]["label"] = "FALSE"
 
-        return {
-            "label": result[0]["label"],
-            "score": result[0]["score"]
-        }
+        return {"label": result[0]["label"], "score": result[0]["score"]}
     except Exception as e:
         print(f"Error in endpoint: {str(e)}")
         return {"error": str(e)}
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
-
 
