@@ -30,6 +30,8 @@ app.get("/", (req,res) => {
 })
 
 app.post("/urlCheck", async (req,res)=>{
+    console.log("Received body:", req.body);
+    console.log("userInput:", req.body.userInput);
     try {
         const {userInput} = req.body;
 
