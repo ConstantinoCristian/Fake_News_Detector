@@ -36,8 +36,13 @@ app.post("/urlCheck", async (req,res)=>{
         if (!userInput) {
             return res.json({output: {label: "Invalid url", score: ""}});
         }
+        const htmlResponse = await fetch(userInput, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
+        });
 
-        const htmlResponse = await fetch(userInput);
+
         const htmlText = await htmlResponse.text();
 
         const doc = new JSDOM(htmlText, { url: userInput });
