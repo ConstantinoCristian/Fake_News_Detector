@@ -13,10 +13,6 @@ class ArticleBody(BaseModel):
 
 app = FastAPI()
 
-@app.get("/")
-def health_check():
-    return {"status": "alive"}
-
 @app.post("/fakeBERT/")
 async def create_article_body(body: ArticleBody):
     headers = {"Authorization": f"Bearer {HF_TOKEN}"}
@@ -27,6 +23,7 @@ async def create_article_body(body: ArticleBody):
             headers=headers,
             json=payload
         )
+    print("HF response:", response.json())
     result = response.json()[0][0]
     label = "TRUE" if result["label"] == "LABEL_1" else "FALSE"
     return {"label": label, "score": result["score"]}
