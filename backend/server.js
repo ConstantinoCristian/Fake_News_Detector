@@ -62,11 +62,15 @@ app.post("/urlCheck", async (req,res)=>{
             return res.json({output: {label: "No readable text content found", score: ""}});
         }
 
-        console.log("Calling ML service at:", process.env.ML_SERVICE_URL);
-        const pythonResponse = await axios.post(`${process.env.ML_SERVICE_URL}/fakeBERT/`, {content: plainText});
-        console.log("ML response:", pythonResponse.data);
+        const pythonResponse = await axios.post(
+            `https://api-inference.huggingface.co/models/jy46604790/Fake-News-Bert-Detect`,
+            { inputs: plainText.slice(0, 512) },
+            { headers: { Authorization: `Bearer ${process.env.HF_TOKEN}` } }
+        );
 
-        return res.json({output: pythonResponse.data})
+        const result = pythonResponse.data[0][0];
+        const label = result.label === "LABEL_1" ? "TRUE" : "FALSE";
+        return res.json({ output: { label, score: result.score } });
 
     } catch(e) {
         console.log("Error:", e.message);
