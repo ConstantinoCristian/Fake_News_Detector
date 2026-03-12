@@ -82,7 +82,7 @@ const Home = ({user}) => {
 
 
 
-            setError(errorMessage);
+            setError(e.message);
             setLoading(false);
         }
     };
@@ -93,7 +93,7 @@ const Home = ({user}) => {
             setSaveError("")
 
             const res = await axios.post(
-                "http://localhost:5000/api/auth/save",
+                `${import.meta.env.VITE_API_URL}/api/auth/save`,
                 { url: url, label: response?.label, score: response?.score },
                 { withCredentials: true }
             )
