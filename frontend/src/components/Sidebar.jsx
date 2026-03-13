@@ -104,9 +104,7 @@ export default function VintageSidebar({user}) {
                                         onClick={(e) => {
                                             e.stopPropagation()
                                             handleDelete(report.id);
-                                            fetchHistory()
-                                           //// window.location.reload()
-                                           // window.location.href = window.location.href;
+
 
                                         }}
                                         className="flex items-center justify-center
