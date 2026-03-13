@@ -17,6 +17,7 @@ export default function VintageSidebar({user}) {
             try{
                 const response = await axios.post(`${import.meta.env.VITE_API_AUTH}/delete`,{ report_id })
                 await fetchHistory();
+                window.location.href="/"
 
             }catch (e){
                 console.log("Something went wrong deleting" +" "+ e )
