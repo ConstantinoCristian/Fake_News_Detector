@@ -4,7 +4,7 @@ const Home = ({user}) =>{
 
     const logout =async () => {
         await axios.post(`${import.meta.env.VITE_API_AUTH}/logout`)
-        window.location.reload();
+        window.location.href="/";
     }
 
     return (

@@ -16,7 +16,7 @@ export default function VintageSidebar({user}) {
         const handleDelete = async (report_id) => {
             try{
                 const response = await axios.post(`${import.meta.env.VITE_API_AUTH}/delete`,{ report_id })
-               alert("Hello")
+                await fetchHistory();
 
             }catch (e){
                 console.log("Something went wrong deleting" +" "+ e )
@@ -102,7 +102,7 @@ export default function VintageSidebar({user}) {
                                         onClick={(e) => {
                                             e.stopPropagation()
                                             handleDelete(report.id);
-                                            window.location.reload();
+
                                         }}
                                         className="flex items-center justify-center
                p-2 rounded-md
