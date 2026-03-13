@@ -81,7 +81,6 @@ export default function VintageSidebar({user}) {
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 handleDelete(report.id);
-                                                window.location.reload()
                                             }}
                                             className="flex items-center justify-center p-2 rounded-md text-[#a06b6b] transition-all duration-200 hover:bg-red-100 hover:text-red-600 active:scale-90 cursor-pointer"
                                         >

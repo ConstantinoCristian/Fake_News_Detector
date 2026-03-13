@@ -154,13 +154,19 @@ router.get("/history",protect,async (req ,res)=>{
 })
 
 
-router.post("/delete",async(req , res)=>{
+router.post("/delete",protect,async(req , res)=>{
     const {report_id} = req.body
 
     try{
-        const del = await pool.query("DELETE FROM history WHERE id = ($1)" , [report_id])
+        const del = await pool.query("DELETE FROM history WHERE id = ($1) AND user_id = ($2)" , [report_id, req.user.id])
+        if (del.rowCount > 0) {
+            return res.status(200).json({message: "Report deleted successfully"})
+        } else {
+            return res.status(404).json({message: "Report not found"})
+        }
     }catch(e){
         console.log("Something went wrong "+e)
+        return res.status(500).json({message: "Error deleting report"})
     }
 })
 
