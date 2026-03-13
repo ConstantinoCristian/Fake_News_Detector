@@ -150,7 +150,7 @@ const Home = ({user}) => {
                                     type="submit"
                                     className="w-full bg-amber-800 text-amber-50 border-2 border-amber-900 px-4 py-3 font-bold tracking-wider uppercase text-sm transition-all duration-200 cursor-pointer hover:bg-amber-900 hover:shadow-lg active:translate-y-0.5 font-serif"
                                 >
-                                    ▶ ANALYZE
+                                     ANALYZE
                                 </button>
                             </form>
                         </div>

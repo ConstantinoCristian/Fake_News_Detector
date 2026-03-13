@@ -89,7 +89,7 @@ const Home = ({user}) =>{
           hover:bg-amber-900 hover:shadow-lg
           active:translate-y-0.5"
                             >
-                                ▶ LOGIN
+                                 LOGIN
                             </Link>
 
                             <Link
@@ -100,7 +100,7 @@ const Home = ({user}) =>{
           hover:bg-amber-200 hover:shadow-md
           active:translate-y-0.5"
                             >
-                                + REGISTER
+                                 REGISTER
                             </Link>
 
                         </div>
