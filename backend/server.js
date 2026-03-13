@@ -63,7 +63,7 @@ app.post("/urlCheck", async (req,res)=>{
         }
 
         const pythonResponse = await axios.post(
-            `https://api-inference.huggingface.co/models/jy46604790/Fake-News-Bert-Detect`,
+            `https://router.huggingface.co/hf-inference/models/jy46604790/Fake-News-Bert-Detect`,
             { inputs: plainText.slice(0, 512) },
             { headers: { Authorization: `Bearer ${process.env.HF_TOKEN}` } }
         );
