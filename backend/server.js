@@ -14,9 +14,14 @@ const app = express();
 app.use(express.json());
 app.use(cookieParsers());
 
+const allowedOrigins = (process.env.CLIENT_URL || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || origin.includes('vercel.app')) {
+        if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
@@ -62,19 +67,28 @@ app.post("/urlCheck", async (req,res)=>{
             return res.json({output: {label: "No readable text content found", score: ""}});
         }
 
+        //const pythonResponse = await axios.post(
+        //    `https://router.huggingface.co/hf-inference/models/jy46604790/Fake-News-Bert-Detect`,
+        //    { inputs: plainText.slice(0, 512) },
+        //    { headers: { Authorization: `Bearer ${process.env.HF_TOKEN}` } }
+        //);
+
         const pythonResponse = await axios.post(
-            `https://router.huggingface.co/hf-inference/models/jy46604790/Fake-News-Bert-Detect`,
-            { inputs: plainText.slice(0, 512) },
-            { headers: { Authorization: `Bearer ${process.env.HF_TOKEN}` } }
+            "http://localhost:8000/predict",
+            { inputs: plainText.slice(0, 5000) }
         );
 
-        const result = pythonResponse.data[0][0];
+        const result = pythonResponse.data[0];
+
+        //const result = pythonResponse.data[0][0];
         const label = result.label === "LABEL_1" ? "TRUE" : "FALSE";
         return res.json({ output: { label, score: result.score } });
 
     } catch(e) {
         console.log("Error:", e.message);
-        return res.json({output: {label: e.message, score: ""}})
+        console.log("URL:", e.config?.url);
+        console.log("HF response:", e.response?.data);
+        return res.json({output: {label: "Analysis failed", score: ""}})
     }
 })
 
