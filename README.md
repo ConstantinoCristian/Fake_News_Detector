@@ -8,9 +8,9 @@ How it works
 
 The app has three layers:
 
-React frontend — built with Vite and Tailwind. You paste a news article URL, it sends it to the backend and displays the result with a pie chart and gauge visualization.
-Node/Express backend — receives the URL, scrapes the article using JSDOM and Mozilla Readability to extract clean text, then sends it to the ML service.
-Python ML service (FastAPI) — runs the text through jy46604790/Fake-News-Bert-Detect, a RoBERTa model trained on over 40,000 news articles, using the transformers library. Returns REAL or FAKE with a confidence score.
+React frontend,built with Vite and Tailwind. You paste a news article URL, it sends it to the backend and displays the result.
+Node/Express backend,receives the URL, scrapes the article using JSDOM and Mozilla Readability to extract clean text, then sends it to the ML service.
+Python ML service (FastAPI),runs the text through jy46604790/Fake-News-Bert-Detect, a RoBERTa model trained on over 40,000 news articles, using the transformers library. Returns REAL or FAKE with a confidence score.
 Features
 Analyze any news article by URL
 REAL/FAKE verdict with confidence percentage
@@ -27,7 +27,7 @@ Database — PostgreSQL (originally hosted on Supabase; any PostgreSQL works loc
 Deployment — originally Vercel (frontend) and Railway (backend); no longer live
 The Model
 
-The model jy46604790/Fake-News-Bert-Detect was already fine-tuned on a large fake news dataset — training from scratch would require significant GPU compute and weeks of work. The engineering effort here was building the full system around it: the scraping pipeline, the API layer, authentication, database, and frontend.
+The model jy46604790/Fake-News-Bert-Detect was already fine-tuned on a large fake news dataset , training from scratch would require significant GPU compute and weeks of work. The engineering effort here was building the full system around it: the scraping pipeline, the API layer, authentication, database, and frontend.
 
 LABEL_0 = Fake news
 LABEL_1 = Real news
@@ -76,7 +76,7 @@ Restart the servers after changing any .env file.
 
 Challenges
 
-The original architecture had a Python FastAPI microservice running the BERT model locally using the transformers library. That code is still in the repo under ml-service and works perfectly fine locally. The problem came at deployment — the BERT model and its dependencies (torch, transformers, tokenizers) pushed the Docker image to around 7.7GB which exceeded Railway's free tier limit of 4GB. Render's free tier only gives you 512MB of RAM which the model blew through instantly on startup.
+The original architecture had a Python FastAPI microservice running the BERT model locally using the transformers library. That code is still in the repo under ml-service and works perfectly fine locally. The problem came at deployment, the BERT model and its dependencies (torch, transformers, tokenizers) pushed the Docker image to around 7.7GB which exceeded Railway's free tier limit of 4GB. Render's free tier only gives you 512MB of RAM which the model blew through instantly on startup.
 
 To keep the deployment free I replaced the local inference with a direct call to the Hugging Face Inference API from the Node backend. Same model, same results, but the heavy computation happened on Hugging Face's servers instead of mine.
 
